@@ -1,4 +1,6 @@
+import {IconButton, TextField} from "@material-ui/core";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {ControlPoint} from "@material-ui/icons";
 
 export type AddItemFormType = {
     addItem: (newTaskTitle: string) => void
@@ -14,10 +16,11 @@ export function AddItemForm(props: AddItemFormType) {
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null)
         if (e.key === 'Enter') {
+            props.addItem(newTaskTitle.trim())
             setNewTaskTitle('')
         }
     }
-    const addTask = () => {
+    const addItem = () => {
         if (newTaskTitle.trim() !== '') {
             props.addItem(newTaskTitle.trim())
             setNewTaskTitle('')
@@ -27,13 +30,18 @@ export function AddItemForm(props: AddItemFormType) {
     }
 
     return <div>
-        <input
+        <TextField
+            onBlur={() => {
+                setError(null)
+            }}
+            error={!!error}
+            helperText={error}
+            label='Type value'
+            variant={"outlined"}
             className={error ? "error" : ''}
             onKeyPress={onKeyPressHandler}
             value={newTaskTitle} onChange={onChangeHandler}/>
-        <button
-            onClick={addTask}>+
-        </button>
-        {error && <div className="error-message">{error}</div>}
+        <IconButton onClick={addItem} color={'primary'}><ControlPoint/>
+        </IconButton>
     </div>
 }
