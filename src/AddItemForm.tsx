@@ -3,27 +3,28 @@ import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {ControlPoint} from "@material-ui/icons";
 
 export type AddItemFormType = {
-    addItem: (newTaskTitle: string) => void
+    addItem: (title: string) => void
 }
 
 export function AddItemForm(props: AddItemFormType) {
 
-    const [newTaskTitle, setNewTaskTitle] = useState('')
+    const [newItemTitle, setNewItemTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewTaskTitle(e.currentTarget.value)
+        setNewItemTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null)
         if (e.key === 'Enter') {
-            props.addItem(newTaskTitle.trim())
-            setNewTaskTitle('')
+            props.addItem(newItemTitle.trim())
+            setNewItemTitle('')
         }
     }
     const addItem = () => {
-        if (newTaskTitle.trim() !== '') {
-            props.addItem(newTaskTitle.trim())
-            setNewTaskTitle('')
+        debugger
+        if (newItemTitle.trim() !== '') {
+            props.addItem(newItemTitle.trim())
+            setNewItemTitle('')
         } else {
             setError('Title is required')
         }
@@ -40,7 +41,7 @@ export function AddItemForm(props: AddItemFormType) {
             variant={"outlined"}
             className={error ? "error" : ''}
             onKeyPress={onKeyPressHandler}
-            value={newTaskTitle} onChange={onChangeHandler}/>
+            value={newItemTitle} onChange={onChangeHandler}/>
         <IconButton onClick={addItem} color={'primary'}><ControlPoint/>
         </IconButton>
     </div>
